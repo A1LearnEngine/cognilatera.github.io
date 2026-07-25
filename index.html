@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -20,12 +21,21 @@
         .logo-container {
             max-width: 450px;
             width: 90%;
-            margin-bottom: 40px;
+            margin-bottom: 15px; /* Abstand nach unten leicht verringert für den Untertext */
             text-align: center;
         }
         .logo-container img {
             width: 100%;
             height: auto;
+        }
+        /* Styling für den Untertext "by Linda Shahin" */
+        .subtitle {
+            color: #a0a0a0; /* Ein edles, dezentes Grausilber, damit es nicht vom Logo ablenkt */
+            font-size: 14px;
+            letter-spacing: 4px; /* Zieht die Buchstaben elegant auseinander */
+            text-transform: uppercase;
+            margin-bottom: 50px; /* Großzügiger Abstand zum Button */
+            font-weight: 300;
         }
         .enter-button {
             background: transparent;
@@ -48,9 +58,15 @@
     <link href="https://googleapis.com" rel="stylesheet">
 </head>
 <body>
+
     <div class="logo-container">
         <img src="logo.png" alt="CogniLatera Logo">
     </div>
+
+    <!-- Dein neuer Untertext -->
+    <div class="subtitle">by Linda Shahin</div>
+
     <a href="#" class="enter-button">Please enter</a>
+
 </body>
 </html>
