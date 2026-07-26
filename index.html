@@ -3,67 +3,644 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CogniLatera</title>
+
+    <meta
+        name="description"
+        content="CogniLatera verbindet freies Entdecken, aktiven Abruf und langfristige Wissenssicherung."
+    >
+
+    <title>CogniLatera – Wissen vernetzen und langfristig sichern</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
+        :root {
+            --background: #0a0a0a;
+            --background-soft: #10100f;
+            --gold: #c5a45f;
+            --gold-bright: #dbc07e;
+            --text: #ece9e2;
+            --muted: #aaa69f;
+            --line: rgba(197, 164, 95, 0.22);
+            --content-width: 1120px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--background);
+        }
+
         body {
             margin: 0;
-            padding: 0;
-            background-color: #0a0a0a;
+            background: var(--background);
+            color: var(--text);
+            font-family: "Montserrat", sans-serif;
+            font-weight: 300;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .skip-link {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 20;
+            padding: 10px 14px;
+            background: var(--text);
+            color: var(--background);
+            text-decoration: none;
+            transform: translateY(-160%);
+            transition: transform 180ms ease;
+        }
+
+        .skip-link:focus {
+            transform: translateY(0);
+        }
+
+        /* Startbildschirm */
+
+        .splash {
+            min-height: 100svh;
+            display: grid;
+            place-items: center;
+            padding: clamp(28px, 5vw, 64px) 24px;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        .splash::before {
+            content: "";
+            position: absolute;
+            width: min(70vw, 760px);
+            aspect-ratio: 1;
+            left: 50%;
+            top: 44%;
+            z-index: -1;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(197, 164, 95, 0.055) 0,
+                rgba(197, 164, 95, 0.018) 35%,
+                transparent 68%
+            );
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .splash-content {
+            width: min(100%, 460px);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-        .logo-container {
-            /* Begrenzt die maximale Breite des Logos, damit es nicht den Bildschirm sprengt */
-            max-width: 380px; 
-            width: 85%;
-            margin-bottom: 10px;
             text-align: center;
         }
+
+        .logo-container {
+            width: min(82vw, 380px);
+        }
+
         .logo-container img {
             width: 100%;
             height: auto;
             display: block;
         }
-        .subtitle {
-            color: #a0a0a0;
-            font-size: 13px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 35px; /* Kompakterer Abstand zum Button */
+
+        .creator {
+            margin: -2px 0 30px;
+            color: var(--muted);
+            font-size: 0.7rem;
             font-weight: 300;
-        }
-        .enter-button {
-            background: transparent;
-            border: 1px solid #d4af37;
-            color: #d4af37;
-            padding: 12px 35px;
-            font-size: 15px;
-            letter-spacing: 2px;
+            letter-spacing: 0.32em;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s ease;
+        }
+
+        /* Buttons */
+
+        .enter-button,
+        .text-link {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            min-height: 48px;
+            padding: 12px 30px;
+            border: 1px solid var(--gold);
+            color: var(--gold-bright);
+            background: transparent;
+            font: 400 0.74rem/1 "Montserrat", sans-serif;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition:
+                color 240ms ease,
+                border-color 240ms ease,
+                box-shadow 240ms ease,
+                transform 240ms ease;
+        }
+
+        .enter-button::before,
+        .enter-button::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            top: 50%;
+            border-radius: 50%;
+            background: var(--gold-bright);
+            box-shadow: 0 0 8px rgba(219, 192, 126, 0.75);
+            opacity: 0;
+            transform: translateY(-50%) scale(0.4);
+            transition:
+                opacity 240ms ease,
+                transform 240ms ease;
+        }
+
+        .enter-button::before {
+            left: -3px;
+        }
+
+        .enter-button::after {
+            right: -3px;
+        }
+
+        .enter-button:hover {
+            color: #f1dfb5;
+            border-color: var(--gold-bright);
+            box-shadow:
+                0 0 0 1px rgba(219, 192, 126, 0.08),
+                0 0 22px rgba(197, 164, 95, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .enter-button:hover::before,
+        .enter-button:hover::after {
+            opacity: 1;
+            transform: translateY(-50%) scale(1);
+        }
+
+        .enter-button:focus-visible,
+        .text-link:focus-visible,
+        .brand-link:focus-visible {
+            outline: 2px solid var(--gold-bright);
+            outline-offset: 5px;
+        }
+
+        .arrow {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 1.4;
+        }
+
+        /* Inhalt der Website */
+
+        .site {
+            min-height: 100svh;
+            border-top: 1px solid var(--line);
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--background-soft) 0%,
+                    var(--background) 58%
+                );
+        }
+
+        .site-nav {
+            width: min(calc(100% - 48px), var(--content-width));
+            min-height: 88px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand-link {
+            color: var(--gold-bright);
+            font: 500 1.55rem/1 "Cormorant Garamond", serif;
+            letter-spacing: 0.13em;
             text-decoration: none;
         }
-        .enter-button:hover {
-            background-color: #d4af37;
-            color: #0a0a0a;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+
+        .nav-label {
+            color: var(--muted);
+            font-size: 0.67rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        /* Hauptbereich */
+
+        .hero {
+            width: min(calc(100% - 48px), var(--content-width));
+            min-height: calc(100svh - 88px);
+            margin: 0 auto;
+            padding: clamp(72px, 12vw, 150px) 0 96px;
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1.2fr)
+                minmax(280px, 0.8fr);
+            gap: clamp(48px, 8vw, 120px);
+            align-items: center;
+        }
+
+        .hero h1 {
+            max-width: 780px;
+            margin: 0;
+            color: var(--text);
+            font:
+                400 clamp(3.5rem, 7.3vw, 7rem) / 0.92
+                "Cormorant Garamond",
+                serif;
+            letter-spacing: -0.025em;
+        }
+
+        .hero h1 em {
+            color: var(--gold-bright);
+            font-style: normal;
+        }
+
+        .hero-copy {
+            padding-left: clamp(0px, 4vw, 48px);
+            border-left: 1px solid var(--line);
+        }
+
+        .hero-copy p {
+            max-width: 430px;
+            margin: 0 0 32px;
+            color: var(--muted);
+            font-size: clamp(1rem, 1.35vw, 1.14rem);
+            line-height: 1.9;
+        }
+
+        .text-link {
+            min-height: 44px;
+            padding-inline: 22px;
+            font-size: 0.67rem;
+        }
+
+        .text-link:hover {
+            color: #f1dfb5;
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 18px rgba(197, 164, 95, 0.1);
+        }
+
+        /* Kernprinzipien */
+
+        .principles {
+            width: min(calc(100% - 48px), var(--content-width));
+            margin: 0 auto;
+            padding: 120px 0 140px;
+            border-top: 1px solid var(--line);
+        }
+
+        .principles h2 {
+            max-width: 720px;
+            margin: 0 0 74px;
+            font:
+                400 clamp(2.5rem, 5vw, 4.7rem) / 1.04
+                "Cormorant Garamond",
+                serif;
+        }
+
+        .principle-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .principle {
+            min-height: 260px;
+            padding: 34px clamp(24px, 3vw, 42px) 42px 0;
+        }
+
+        .principle + .principle {
+            padding-left: clamp(24px, 3vw, 42px);
+            border-left: 1px solid var(--line);
+        }
+
+        .principle-number {
+            display: block;
+            margin-bottom: 50px;
+            color: var(--gold);
+            font: 500 0.67rem/1 "Montserrat", sans-serif;
+            letter-spacing: 0.2em;
+        }
+
+        .principle h3 {
+            margin: 0 0 16px;
+            color: var(--text);
+            font:
+                500 clamp(1.7rem, 2.4vw, 2.35rem) / 1.05
+                "Cormorant Garamond",
+                serif;
+        }
+
+        .principle p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.75;
+        }
+
+        /* Footer */
+
+        .site-footer {
+            width: min(calc(100% - 48px), var(--content-width));
+            margin: 0 auto;
+            padding: 34px 0 42px;
+            display: flex;
+            justify-content: space-between;
+            gap: 24px;
+            color: #77746f;
+            font-size: 0.66rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        /* Tablet */
+
+        @media (max-width: 800px) {
+            .site-nav {
+                min-height: 74px;
+            }
+
+            .hero {
+                min-height: auto;
+                grid-template-columns: 1fr;
+                padding-top: 88px;
+            }
+
+            .hero h1 {
+                font-size: clamp(3.35rem, 16vw, 5.5rem);
+            }
+
+            .hero-copy {
+                max-width: 560px;
+                padding: 30px 0 0;
+                border-top: 1px solid var(--line);
+                border-left: 0;
+            }
+
+            .principle-list {
+                grid-template-columns: 1fr;
+            }
+
+            .principle {
+                min-height: 0;
+                padding: 30px 0 36px;
+            }
+
+            .principle + .principle {
+                padding: 30px 0 36px;
+                border-top: 1px solid var(--line);
+                border-left: 0;
+            }
+
+            .principle-number {
+                margin-bottom: 26px;
+            }
+        }
+
+        /* Smartphone */
+
+        @media (max-width: 520px) {
+            .splash {
+                padding-inline: 20px;
+            }
+
+            .logo-container {
+                width: min(92vw, 340px);
+            }
+
+            .creator {
+                margin-top: -12px;
+                letter-spacing: 0.24em;
+            }
+
+            .site-nav,
+            .hero,
+            .principles,
+            .site-footer {
+                width: min(calc(100% - 34px), var(--content-width));
+            }
+
+            .nav-label {
+                display: none;
+            }
+
+            .hero {
+                gap: 44px;
+                padding: 68px 0 82px;
+            }
+
+            .hero h1 {
+                font-size: clamp(3.05rem, 16.5vw, 4.6rem);
+            }
+
+            .principles {
+                padding: 84px 0 96px;
+            }
+
+            .principles h2 {
+                margin-bottom: 48px;
+            }
+
+            .site-footer {
+                flex-direction: column;
+                line-height: 1.65;
+            }
+        }
+
+        /* Weniger Bewegung, falls im Gerät eingestellt */
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
-    <link href="https://googleapis.com" rel="stylesheet">
 </head>
-<body>
 
-    <div class="logo-container">
-        <img src="logo.png" alt="CogniLatera Logo">
-    </div>
+<body id="top">
+    <a class="skip-link" href="#start">
+        Direkt zum Inhalt
+    </a>
 
-    <div class="subtitle">by Linda Shahin</div>
+    <header class="splash" aria-label="CogniLatera Start">
+        <div class="splash-content">
 
-    <a href="#" class="enter-button">Please enter</a>
+            <div class="logo-container">
+                <img
+                    src="logo.png"
+                    alt="CogniLatera – stilisierter Falke aus goldenen neuronalen Linien"
+                    width="415"
+                    height="580"
+                    fetchpriority="high"
+                >
+            </div>
+
+            <p class="creator">
+                by Linda Shahin
+            </p>
+
+            <a class="enter-button" href="#start">
+                CogniLatera entdecken
+
+                <svg
+                    class="arrow"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path
+                        d="M12 5v14M6.5 13.5 12 19l5.5-5.5"
+                    ></path>
+                </svg>
+            </a>
+
+        </div>
+    </header>
+
+    <main id="start" class="site">
+
+        <nav class="site-nav" aria-label="Hauptnavigation">
+            <a
+                class="brand-link"
+                href="#top"
+                aria-label="Zurück zum Anfang"
+            >
+                CogniLatera
+            </a>
+
+            <span class="nav-label">
+                Cognitive Learning Engine
+            </span>
+        </nav>
+
+        <section
+            class="hero"
+            aria-labelledby="main-heading"
+        >
+            <h1 id="main-heading">
+                Freies Entdecken.<br>
+                Aktiver Abruf.<br>
+                <em>Dauerhaftes Wissen.</em>
+            </h1>
+
+            <div class="hero-copy">
+                <p>
+                    CogniLatera verbindet laterales Lernen mit
+                    kognitionswissenschaftlich fundierter Wissenssicherung.
+                    Eine ruhige Lernumgebung für Menschen, die Zusammenhänge
+                    erkunden und Wissen langfristig verfügbar halten möchten.
+                </p>
+
+                <a
+                    class="text-link"
+                    href="#prinzipien"
+                >
+                    Das Prinzip kennenlernen
+                </a>
+            </div>
+        </section>
+
+        <section
+            id="prinzipien"
+            class="principles"
+            aria-labelledby="principles-heading"
+        >
+            <h2 id="principles-heading">
+                Lernen darf sich verzweigen.<br>
+                Wissen braucht ein verlässliches Netz.
+            </h2>
+
+            <div class="principle-list">
+
+                <article class="principle">
+                    <span class="principle-number">
+                        01
+                    </span>
+
+                    <h3>
+                        Laterales Denken
+                    </h3>
+
+                    <p>
+                        Themen werden nicht nur linear durchlaufen.
+                        Verbindungen zwischen Wissensgebieten machen
+                        neue Perspektiven und kreative Sprünge möglich.
+                    </p>
+                </article>
+
+                <article class="principle">
+                    <span class="principle-number">
+                        02
+                    </span>
+
+                    <h3>
+                        Reizarme Adaptivität
+                    </h3>
+
+                    <p>
+                        Die Lernumgebung bleibt ruhig und vorhersehbar.
+                        Anpassungen unterstützen im Hintergrund, ohne
+                        Aufmerksamkeit durch Belohnungseffekte zu binden.
+                    </p>
+                </article>
+
+                <article class="principle">
+                    <span class="principle-number">
+                        03
+                    </span>
+
+                    <h3>
+                        Langzeitsicherung
+                    </h3>
+
+                    <p>
+                        Aktiver Abruf und Spaced Repetition bilden das
+                        Auffangnetz, das bereits erworbenes Wissen auch
+                        nach Lernpausen systematisch festigt.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <span>
+                CogniLatera
+            </span>
+
+            <span>
+                Konzept und Entwicklung · Linda Shahin
+            </span>
+        </footer>
+
+    </main>
+</body>
+</html>
