@@ -7,15 +7,15 @@
 <meta name="description" content="CogniLatera – eine ruhige Lernengine. Interner Bereich.">
 <style>
   :root {
-    --bg: #EBEEEA;
-    --card: #F9FAF8;
-    --text: #2B2F2A;
-    --muted: #5B6358;
-    --accent: #3B5F55;
-    --accent-hover: #2E4B43;
-    --border: #D3D8CE;
-    --error: #8A4B3B;
-    --error-bg: #F2E2DC;
+    --bg: #0C0B09;
+    --card: #14120F;
+    --text: #EDE6D6;
+    --muted: #9A9184;
+    --gold: #C9A45C;
+    --gold-soft: #A8874A;
+    --border: #2A261F;
+    --error: #D08770;
+    --error-bg: #2A1E1A;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -31,72 +31,90 @@
   .card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 48px 40px;
+    border-radius: 4px;
+    padding: 56px 44px;
     width: 100%;
-    max-width: 420px;
+    max-width: 440px;
     text-align: center;
   }
   .logo {
-    max-width: 180px;
+    max-width: 210px;
     height: auto;
-    margin: 0 auto 18px;
+    margin: 0 auto 26px;
     display: block;
   }
   h1 {
     font-family: ui-serif, Georgia, "Times New Roman", serif;
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    margin-bottom: 6px;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: none;
+    color: var(--gold);
+    margin-bottom: 8px;
   }
   .byline {
     color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 34px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    margin-bottom: 42px;
+  }
+  .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold-soft);
+    margin: 0 auto 42px;
+    opacity: 0.6;
   }
   form { text-align: left; }
   label {
     display: block;
-    font-size: 13px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 8px;
   }
   input {
     width: 100%;
-    background: #fff;
+    background: var(--bg);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
+    border-radius: 3px;
+    padding: 13px 14px;
     font-size: 15px;
     color: var(--text);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   input:focus {
     outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(59, 95, 85, 0.15);
+    border-color: var(--gold-soft);
+    box-shadow: 0 0 0 3px rgba(201, 164, 92, 0.12);
   }
   button {
     width: 100%;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold-soft);
+    border-radius: 3px;
     padding: 13px;
-    font-size: 15px;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
     cursor: pointer;
-    transition: background 160ms ease;
+    transition: background 180ms ease, color 180ms ease;
   }
-  button:hover { background: var(--accent-hover); }
+  button:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
   .error {
     display: none;
     background: var(--error-bg);
     color: var(--error);
-    border-radius: 10px;
+    border: 1px solid rgba(208, 135, 112, 0.3);
+    border-radius: 3px;
     padding: 10px 14px;
     font-size: 14px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
   }
   .error.visible { display: block; }
   /* Interner Bereich */
@@ -105,23 +123,27 @@
   #login-view.hidden { display: none; }
   #internal h2 {
     font-family: ui-serif, Georgia, serif;
-    font-weight: 500;
-    font-size: 22px;
-    margin-bottom: 14px;
+    font-weight: 400;
+    font-size: 21px;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 18px;
   }
   #internal p {
     color: var(--muted);
     font-size: 15px;
-    line-height: 1.6;
-    margin-bottom: 14px;
+    line-height: 1.7;
+    margin-bottom: 16px;
   }
   .logout {
-    background: none;
-    border: 1px solid var(--border);
+    margin-top: 14px;
+    border-color: var(--border);
     color: var(--muted);
-    margin-top: 10px;
   }
-  .logout:hover { background: var(--bg); }
+  .logout:hover {
+    background: var(--border);
+    color: var(--text);
+  }
   @media (prefers-reduced-motion: reduce) {
     button { transition: none; }
   }
@@ -132,6 +154,7 @@
     <img src="/logo.png" alt="CogniLatera Logo" class="logo">
     <h1>CogniLatera</h1>
     <p class="byline">by Linda Shahin</p>
+    <div class="divider"></div>
 
     <div id="login-view">
       <div class="error" id="error-box">Benutzername oder Passwort ist nicht korrekt.</div>
@@ -155,11 +178,8 @@
 
 <script>
   // ================= KONFIGURATION =================
-  // Benutzername (Groß-/Kleinschreibung wird beachtet):
   var USERNAME = "CogniLatera";
-  // SHA-256-Hash des Passworts. Zum Festlegen die Datei
-  // passwort-generator.html im Browser oeffnen, Wunschpasswort
-  // eingeben und den erzeugten Hash hier einfuegen:
+  // HIER deinen vorhandenen Hash aus der alten Datei einfuegen:
   var PASSWORD_HASH = "c3ee4f1dd5fb15e84c5a6e9ddef2df4842c0518f5b9139144a095db94feb4bbb";
   // =================================================
 
