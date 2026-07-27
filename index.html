@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CogniLatera</title>
-<meta name="description" content="CogniLatera – eine ruhige Lernengine. Interner Bereich.">
+<meta name="description" content="CogniLatera – eine reizreduzierte Lernengine, die freien Wissenserwerb mit automatischer Langzeitsicherung verbindet.">
 <style>
   :root {
     --bg: #0C0B09;
@@ -34,7 +34,7 @@
     border-radius: 4px;
     padding: 56px 44px;
     width: 100%;
-    max-width: 440px;
+    max-width: 460px;
     text-align: center;
   }
   .logo {
@@ -48,7 +48,6 @@
     font-size: 28px;
     font-weight: 400;
     letter-spacing: 0.22em;
-    text-transform: none;
     color: var(--gold);
     margin-bottom: 8px;
   }
@@ -56,14 +55,27 @@
     color: var(--muted);
     font-size: 13px;
     letter-spacing: 0.08em;
-    margin-bottom: 42px;
+    margin-bottom: 36px;
   }
   .divider {
     width: 48px;
     height: 1px;
     background: var(--gold-soft);
-    margin: 0 auto 42px;
+    margin: 0 auto 36px;
     opacity: 0.6;
+  }
+  .intro {
+    font-family: ui-serif, Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .intro-sub {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    margin-bottom: 42px;
   }
   form { text-align: left; }
   label {
@@ -117,7 +129,6 @@
     margin-bottom: 18px;
   }
   .error.visible { display: block; }
-  /* Interner Bereich */
   #internal { display: none; text-align: left; }
   #internal.visible { display: block; }
   #login-view.hidden { display: none; }
@@ -157,6 +168,9 @@
     <div class="divider"></div>
 
     <div id="login-view">
+      <p class="intro">Hier entsteht CogniLatera – eine reizreduzierte Lernengine, die freien Wissenserwerb mit automatischer Langzeitsicherung verbindet.</p>
+      <p class="intro-sub">Diese Seite ist im Aufbau. Inhalte, Konzeptstände und der Prototyp werden nach und nach ergänzt.</p>
+
       <div class="error" id="error-box">Benutzername oder Passwort ist nicht korrekt.</div>
       <form id="login-form" autocomplete="off">
         <label for="user">Benutzername</label>
@@ -170,8 +184,7 @@
     <div id="internal">
       <h2>Interner Bereich</h2>
       <p>Willkommen zurück, Linda.</p>
-      <p>Hier entsteht CogniLatera – eine reizreduzierte Lernengine, die freien Wissenserwerb mit automatischer Langzeitsicherung verbindet.</p>
-      <p>Dieser Bereich ist im Aufbau. Inhalte, Konzeptstände und der Prototyp werden hier nach und nach ergänzt.</p>
+      <p>Hier sammelst du künftig Konzeptstände, Dokumente und den Prototyp – sichtbar nur nach Anmeldung.</p>
       <button class="logout" id="logout-btn" type="button">Abmelden</button>
     </div>
   </main>
@@ -179,7 +192,7 @@
 <script>
   // ================= KONFIGURATION =================
   var USERNAME = "CogniLatera";
-  // HIER deinen vorhandenen Hash aus der alten Datei einfuegen:
+  // HIER deinen vorhandenen Hash einfuegen:
   var PASSWORD_HASH = "c3ee4f1dd5fb15e84c5a6e9ddef2df4842c0518f5b9139144a095db94feb4bbb";
   // =================================================
 
